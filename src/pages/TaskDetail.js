@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSingleQuote } from "../lib/api";
 import Spinner from "../lib/Spinner";
 import useHttp from "../hooks/use-http";
 import styled from "styled-components";
+import AuthContext from "../context/auth-context";
 
 const ButtonNormal = styled.button`
   color: white;
@@ -55,11 +56,14 @@ function TaskDetail() {
   let { taskId } = useParams();
   const navigate = useNavigate();
 
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token
+
   const {
     sendRequest: sendRequestOne,
     status: oneStatus,
     data,
-  } = useHttp(getSingleQuote, true);
+  } = useHttp(getSingleQuote, true, token);
 
   useEffect(() => {
     sendRequestOne(taskId);
