@@ -36,29 +36,41 @@ const retriveStoredToken = () => {
   };
 };
 
+const retriveStoredMode = () => {
+  const storedMode = localStorage.getItem("mode");
+  return {
+    mode: storedMode
+  }
+}
+
 
 
 export const AuthContextProvider = (props) => {
   const tokenData = useMemo(() => retriveStoredToken(), []);
+  const modeData = useMemo(() => retriveStoredMode(), []);
   let initialToken;
+  let initialMode = 'black';
+
+  if (modeData) {
+    initialMode = modeData.mode;
+  }
 
   if (tokenData) {
     initialToken = tokenData.token;
   }
   const [token, setToken] = useState(initialToken);
-  const [mode, setMode] = useState('black');
+  const [mode, setMode] = useState(initialMode);
 
   const userIsLoggedIn = !!token;
 
   const modeSelectHandler = () => {
-
     if (mode === 'black') {
-      setMode('green');
-      
+      localStorage.setItem("mode", 'green');
+      setMode('green');      
     } else {
+      localStorage.setItem("mode", 'black');
       setMode('black');
-    }
-    
+    }    
   }
 
   const logoutHandler = useCallback(() => {
