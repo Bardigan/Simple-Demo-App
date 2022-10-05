@@ -2,34 +2,9 @@ import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import Spinner from "../lib/Spinner";
 import styled from "styled-components";
-
-const FormButtonBlack = styled.button`
-  margin-top: 15px;
-  border: none;
-  background: black;
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const FormButtonSimple = styled.button`
-  background: none;
-  color: black;
-  margin-top: 15px;
-  border: none;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+import { BlackButton, SimpleButton, BackdropWrpr, FormLabel } from "../style/Style"
+import { useContext } from "react";
+import AuthContext from "../context/auth-context";
 
 const FormInput = styled.input`
   padding: 7px;
@@ -37,12 +12,6 @@ const FormInput = styled.input`
   border: 1px solid #cdcdcd;
   width: 60%;
   margin: 10px 0px 10px 0px;
-`;
-
-const FormLabel = styled.label`
-  padding: 5px;
-  display: block;
-  font-weight: 300;
 `;
 
 const FormTextArea = styled.textarea`
@@ -75,17 +44,6 @@ const ModalWrapper = styled.div`
   z-index: 100;
 `;
 
-const BackdropWrpr = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-`;
-
 const ValidationMsgErr = styled.div`
   font-size: 15px;
   color: red;
@@ -101,6 +59,7 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
+  const authCtx = useContext(AuthContext);
   const [validation, setValidation] = useState(true);
   const modalTextref = useRef();
   const modalTextArearef = useRef();
@@ -126,11 +85,11 @@ const ModalOverlay = (props) => {
   return (
     <ModalWrapper>
       <Form onSubmit={onAddHandler}>
-        <FormLabel htmlFor="modalText">Add title</FormLabel>
+        <FormLabel mode={authCtx.mode} htmlFor="modalText">Add title</FormLabel>
         <div>
           <FormInput type="text" ref={modalTextref}></FormInput>
         </div>
-        <FormLabel htmlFor="storyText">Add story</FormLabel>
+        <FormLabel mode={authCtx.mode} htmlFor="storyText">Add story</FormLabel>
         <div>
           <FormTextArea ref={modalTextArearef}></FormTextArea>
         </div>
@@ -140,16 +99,17 @@ const ModalOverlay = (props) => {
           ""
         )}
 
-        <FormButtonBlack>Add</FormButtonBlack>
+        <BlackButton mode={authCtx.mode}>Add</BlackButton>
 
-        <FormButtonSimple
+        <SimpleButton
+          mode={authCtx.mode}
           type="button"
           onClick={() => {
             props.toggleModal();
           }}
         >
           Cancel
-        </FormButtonSimple>
+        </SimpleButton>
       </Form>
     </ModalWrapper>
   );

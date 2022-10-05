@@ -7,6 +7,8 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: (token) => {},
+  mode: 'black',
+  modeSelectHandler: () => {}
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -34,15 +36,30 @@ const retriveStoredToken = () => {
   };
 };
 
+
+
 export const AuthContextProvider = (props) => {
   const tokenData = useMemo(() => retriveStoredToken(), []);
   let initialToken;
+
   if (tokenData) {
     initialToken = tokenData.token;
   }
   const [token, setToken] = useState(initialToken);
+  const [mode, setMode] = useState('black');
 
   const userIsLoggedIn = !!token;
+
+  const modeSelectHandler = () => {
+
+    if (mode === 'black') {
+      setMode('green');
+      
+    } else {
+      setMode('black');
+    }
+    
+  }
 
   const logoutHandler = useCallback(() => {
     setToken(null);
@@ -81,6 +98,8 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    mode: mode,
+    modeSelectHandler: modeSelectHandler
   };
 
   return (

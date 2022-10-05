@@ -2,39 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Spinner from "../lib/Spinner";
 import styled from "styled-components";
-
-const FormButtonBlack = styled.button`
-  margin-top: 15px;
-  border: none;
-  background: black;
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const FormButtonSimple = styled.button`
-  background: none;
-  color: black;
-  margin-top: 15px;
-  border: none;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+import { BlackButton, SimpleButton, BackdropWrpr } from "../style/Style"
+import { useContext } from "react";
+import AuthContext from "../context/auth-context";
 
 const FormLabel = styled.label`
   padding: 5px;
   display: block;
   font-weight: 300;
+  margin-bottom: 15px;
+  color: ${props => props.mode === 'black' ? 'black' : '#00b17d'};
 `;
 
 const Form = styled.form`
@@ -58,17 +35,6 @@ const ModalWrapper = styled.div`
   z-index: 100;
 `;
 
-const BackdropWrpr = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-`;
-
 const Backdrop = (props) => {
   return (
     <BackdropWrpr onClick={props.toggleModal}>
@@ -78,6 +44,8 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
+
+  const authCtx = useContext(AuthContext);
   const onConfirm = (event) => {
     event.preventDefault();
     props.sendDeleteRequest(props.selectedData);
@@ -86,18 +54,19 @@ const ModalOverlay = (props) => {
   return (
     <ModalWrapper>
       <Form onSubmit={onConfirm}>
-        <FormLabel htmlFor="modalText">Are you sure?</FormLabel>
-        <FormButtonBlack>
+        <FormLabel mode={authCtx.mode} htmlFor="modalText">Are you sure?</FormLabel>
+        <BlackButton mode={authCtx.mode}>
           Yes
-        </FormButtonBlack>
-        <FormButtonSimple
+        </BlackButton>
+        <SimpleButton
+          mode={authCtx.mode}
           type="button"
           onClick={() => {
             props.toggleModal();
           }}
         >
           No
-        </FormButtonSimple>
+        </SimpleButton>
       </Form>
     </ModalWrapper>
   );

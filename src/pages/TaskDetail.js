@@ -5,25 +5,7 @@ import Spinner from "../lib/Spinner";
 import useHttp from "../hooks/use-http";
 import styled from "styled-components";
 import AuthContext from "../context/auth-context";
-
-const ButtonNormal = styled.button`
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  background: black;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const DateLabel = styled.div`
-  font-size: 0.8em;
-  margin-top: 5px;
-  color: #dfcaa6;
-`;
+import { BlackButton, DateLabel } from "../style/Style"
 
 const PageWrapper = styled.div`
   margin: 15px;
@@ -46,10 +28,12 @@ const TaskDetailWrapper = styled.div`
 const TaskStoryWrpr = styled.div`
   display: inline-block;
   font-size: 0.9em;
+  color: ${props => props.mode === 'black' ? 'black' : '#00b17d'};
 `;
 
 const Header = styled.header`
   margin-bottom: 10px;
+  color: ${props => props.mode === 'black' ? 'black' : '#00b17d'};
 `;
 
 function TaskDetail() {
@@ -74,15 +58,15 @@ function TaskDetail() {
     let dateStringifiend = date.toLocaleString();
     return (
       <PageWrapper>
-        <ButtonNormal onClick={() => navigate(`/profile`, { replace: true })}>
+        <BlackButton mode={authCtx.mode} onClick={() => navigate(`/profile`, { replace: true })}>
           Go Back
-        </ButtonNormal>
+        </BlackButton>
         <TaskDetailWrapper>
-          <Header>{data.text}</Header>
+          <Header mode={authCtx.mode}>{data.text}</Header>
 
-          <TaskStoryWrpr>{data.story && data.story}</TaskStoryWrpr>
+          <TaskStoryWrpr mode={authCtx.mode}>{data.story && data.story}</TaskStoryWrpr>
 
-          <DateLabel>{dateStringifiend}</DateLabel>
+          <DateLabel mode={authCtx.mode}>{dateStringifiend}</DateLabel>
         </TaskDetailWrapper>
       </PageWrapper>
     );

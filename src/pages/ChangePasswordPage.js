@@ -5,20 +5,7 @@ import useHttp from "../hooks/use-http";
 import { changePassword } from "../lib/api";
 import Spinner from "../lib/Spinner";
 import styled from "styled-components";
-
-const FormButtonBlack = styled.button`
-  margin-top: 15px;
-  border: none;
-  background: black;
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+import { BlackButton } from "../style/Style"
 
 const FormInput = styled.input`
   padding: 7px;
@@ -92,7 +79,8 @@ function ChangePasswordPage() {
         <div>
           <FormInput type="password" id="password" ref={inputRef} />
         </div>
-        <FormButtonBlack>Change Password</FormButtonBlack>
+        <br />
+        <BlackButton mode={authCtx.mode}>Change Password</BlackButton>
         <ValidationMsgErr>{error && error}</ValidationMsgErr>
         {success ? (
           <ValidationMsgSuccs>

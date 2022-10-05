@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import Modal from "../modals/Modal";
 import useHttp from "../hooks/use-http";
 import { addQuote, getAllQuotes, deteleQuote } from "../lib/api";
@@ -6,21 +6,8 @@ import Spinner from "../lib/Spinner";
 import TaskList from "../components/TaskList";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import styled from "styled-components";
-import { useContext } from "react";
 import AuthContext from "../context/auth-context";
-
-const ButtonNormal = styled.button`
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  background: black;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+import { BlackButton } from "../style/Style"
 
 const PageWrapper = styled.div`
   margin: 15px;
@@ -94,9 +81,9 @@ function Profile() {
       ) : (
         ""
       )}
-      <ButtonNormal onClick={() => setModal((prevState) => !prevState)}>
+      <BlackButton mode={authCtx.mode} onClick={() => setModal((prevState) => !prevState)}>
         Add New +
-      </ButtonNormal>
+      </BlackButton>
       {allStatus === "pending" ? <Spinner /> : ""}
       <br />
       {loadedQuotes !== null ? taskListMemo : ""}

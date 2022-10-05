@@ -1,27 +1,9 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
-const QuoteButton = styled.button`
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 1px solid #dfcaa6;
-    background: #fff6e7;
-    color:black;
-  float: right;
-    margin-left: 10px;s
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const DateLabel = styled.div`
-  font-size: 0.8em;
-  margin-top: 5px;
-  color: #dfcaa6;
-`;
+import { useContext } from "react";
+import AuthContext from "../context/auth-context";
+import { QuoteButton, DateLabel } from "../style/Style"
 
 const QuoteWrapper = styled.div`
   padding: 30px;
@@ -31,19 +13,17 @@ const QuoteWrapper = styled.div`
   margin: 15px 0px 15px 0px;
   background: white;
   border: 1px solid #dfcaa6;
-
-  &:hover {
-    opacity: 0.9;
-  }
 `;
 
 const QuoteTextWrpr = styled.div`
  display: inline-block;
+ color: ${props => props.mode === 'black' ? 'black' : '#00b17d'};
 `;
 
 
 function TaskList(props) {
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
 
   return (
     <React.Fragment>
@@ -53,18 +33,20 @@ function TaskList(props) {
       return (
         <QuoteWrapper key={index}>
 
-          <QuoteTextWrpr>
+          <QuoteTextWrpr mode={authCtx.mode}>
             {data.text}
-            <DateLabel>{dateStringifiend}</DateLabel>
+            <DateLabel mode={authCtx.mode}>{dateStringifiend}</DateLabel>
           </QuoteTextWrpr>
 
           <QuoteButton
+            mode={authCtx.mode}
             onClick={() => props.onDeleteHandler(data.id)}
           >
             Delete
           </QuoteButton>
 
           <QuoteButton
+            mode={authCtx.mode}
             onClick={() => navigate(`/profile/${data.id}`, { replace: true })}
           >
             Details

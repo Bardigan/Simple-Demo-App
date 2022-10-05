@@ -1,77 +1,67 @@
 import { useContext } from "react";
 import AuthContext from "../context/auth-context";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
-const NavButtonBlack = styled.button`
-  border: none;
-  background: black;
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  float: right;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const NavigationBarInner = styled.div`
-  margin-right: 15px;
-`;
-
-const NavigationBar = styled.div`
-  color: white;
-  background: black;
-  width: 100%;
-  height: 35px;
-`;
+import ToggleSwitch from "../lib/ToggleSwitch";
+import { BlackButton, NavigationBarInner, NavigationBar } from "../style/Style"
 
 function Navigation() {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
 
+  const toggleMode =() => {
+    authCtx.modeSelectHandler();
+  }
+
   return (
-    <NavigationBar>
+    <NavigationBar mode={authCtx.mode}>
       <NavigationBarInner>
+
+      
+      
         {!isLoggedIn ? (
-          <NavButtonBlack
+          <BlackButton
+            mode={authCtx.mode}
             onClick={() => {
               navigate("/", { replace: true });
             }}
           >
             Login
-          </NavButtonBlack>
+          </BlackButton>
         ) : (
-          <NavButtonBlack
+          <BlackButton
+            mode={authCtx.mode}
             onClick={() => {
               authCtx.logout();
               navigate("/", { replace: true });
             }}
           >
             Logout
-          </NavButtonBlack>
+          </BlackButton>
         )}
         {isLoggedIn && (
-          <NavButtonBlack
+          <BlackButton
+            mode={authCtx.mode}
             onClick={() => {
               navigate("/profile", { replace: true });
             }}
           >
             Profile
-          </NavButtonBlack>
+          </BlackButton>
         )}
         {isLoggedIn && (
-          <NavButtonBlack
+          <BlackButton
+            mode={authCtx.mode}
             onClick={() => {
               navigate("/change-password", { replace: true });
             }}
           >
             Change Password
-          </NavButtonBlack>
+          </BlackButton>
         )}
+
+        <ToggleSwitch mode={authCtx.mode} onToggle={toggleMode} label="Mode" />
+
       </NavigationBarInner>
     </NavigationBar>
   );

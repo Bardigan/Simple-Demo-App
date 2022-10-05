@@ -2,53 +2,7 @@ import { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import styled from "styled-components";
-
-const FormButtonBlack = styled.button`
-  margin-top: 15px;
-  border: none;
-  background: black;
-  color: white;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const FormButtonSimple = styled.button`
-  background: none;
-  color: black;
-  margin-top: 15px;
-  border: none;
-  padding: 10px 15px 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const FormInput = styled.input`
-  padding: 7px;
-  border-radius: 5px;
-  border: 1px solid #cdcdcd;
-  width: 60%;
-  margin: 10px 0px 10px 0px;
-`;
-
-const FormLabel = styled.label`
-  padding: 5px;
-  display: block;
-  font-weight: 300;
-`;
-
-const FormHeader = styled.header`
-  padding-bottom: 10px;
-  font-size: 25px;
-`;
+import { BlackButton, SimpleButton, FormInput, FormLabel, FormHeader } from "../style/Style"
 
 const Form = styled.form`
   margin-top: 200px;
@@ -134,8 +88,8 @@ function Login() {
     <div>
         {!registration ? (
           <Form onSubmit={confirmHandler}>
-            <FormHeader>Login</FormHeader>
-            <FormLabel htmlFor="email">Your Email</FormLabel>
+            <FormHeader mode={authCtx.mode}>Login</FormHeader>
+            <FormLabel mode={authCtx.mode} htmlFor="email">Your Email</FormLabel>
             <div>
               <FormInput
                 type="email"
@@ -143,7 +97,7 @@ function Login() {
                 ref={emailInputRef}
                 />
             </div>
-            <FormLabel htmlFor="password">Your Password</FormLabel>
+            <FormLabel mode={authCtx.mode} htmlFor="password">Your Password</FormLabel>
             <div>
               <FormInput
                 type="password"
@@ -151,22 +105,24 @@ function Login() {
                 ref={passwordInputRef}
               />
             </div>
-            <FormButtonBlack>Login</FormButtonBlack>
             <br />
-            <FormButtonSimple
+            <BlackButton mode={authCtx.mode}>Login</BlackButton>
+            <br />
+            <SimpleButton
+              mode={authCtx.mode}
               type="button"
               onClick={() => {
                 setRegistration((prevState) => !prevState);
               }}
             >
               Create new account
-            </FormButtonSimple>
+            </SimpleButton>
             {authError === true? <ValidationMsgErr>Something went wrong check the credentials and try again!</ValidationMsgErr> : ''}
           </Form>
         ) : (
           <Form onSubmit={confirmHandler}>
-            <FormHeader>Sign Up</FormHeader>
-            <FormLabel htmlFor="email">Your Email</FormLabel>
+            <FormHeader mode={authCtx.mode}>Sign Up</FormHeader>
+            <FormLabel mode={authCtx.mode} htmlFor="email">Your Email</FormLabel>
             <div>
               <FormInput
                 type="email"
@@ -174,7 +130,7 @@ function Login() {
                 ref={emailInputRef}
               />
             </div>
-            <FormLabel htmlFor="password">Your Password</FormLabel>
+            <FormLabel mode={authCtx.mode} htmlFor="password">Your Password</FormLabel>
             <div>
               <FormInput
                 type="password"
@@ -182,16 +138,18 @@ function Login() {
                 ref={passwordInputRef}
               />
             </div>
-            <FormButtonBlack>Create Account</FormButtonBlack>
             <br />
-            <FormButtonSimple
+            <BlackButton mode={authCtx.mode}>Create Account</BlackButton>
+            <br />
+            <SimpleButton
+              mode={authCtx.mode}
               type="button"
               onClick={() => {
                 setRegistration((prevState) => !prevState);
               }}
             >
               Login with existing account
-            </FormButtonSimple>
+            </SimpleButton>
             {authError === true? <ValidationMsgErr>Something went wrong check the credentials and try again!</ValidationMsgErr> : ''}
           </Form>
         )}
