@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import AuthContext from "../context/auth-context";
 import { QuoteButton, DateLabel } from "../style/Style"
+import { AiFillDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 
 const QuoteWrapper = styled.div`
   padding: 30px;
@@ -32,7 +33,7 @@ function TaskList(props) {
       let dateStringifiend = date.toLocaleString();
       return (
         <QuoteWrapper key={index}>
-
+          
           <QuoteTextWrpr mode={authCtx.mode}>
             {data.text}
             <DateLabel mode={authCtx.mode}>{dateStringifiend}</DateLabel>
@@ -42,14 +43,15 @@ function TaskList(props) {
             mode={authCtx.mode}
             onClick={() => props.onDeleteHandler(data.id)}
           >
-            Delete
+
+            <AiFillDelete />
           </QuoteButton>
 
           <QuoteButton
             mode={authCtx.mode}
             onClick={() => navigate(`/profile/${data.id}`, { replace: true })}
           >
-            Details
+           <AiOutlineInfoCircle />
           </QuoteButton>
 
         </QuoteWrapper>

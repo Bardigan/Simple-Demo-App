@@ -45,6 +45,9 @@ code {
   color: #7e7e7e;
 }
 
+button svg {
+  font-size: 15px;
+}
 
 /*----*/
 

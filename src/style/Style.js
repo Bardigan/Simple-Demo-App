@@ -37,7 +37,7 @@ export const QuoteButton = styled.button`
     background: ${props => props.mode === 'black' ? '#fff6e7' : '#00b17d'};
     color: ${props => props.mode === 'black' ? 'black' : 'white'};
   float: right;
-    margin-left: 10px;s
+    margin-left: 10px;
     z-index: 10;
 
   &:hover {
